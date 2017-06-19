@@ -21,7 +21,7 @@ router.post("/register", function(req,res){
     }
     else{
       passport.authenticate("local")(req,res, function(){
-        res.render("auth/secret")
+        res.render("secret")
       });
     }
   });
