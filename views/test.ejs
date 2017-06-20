@@ -1,0 +1,28 @@
+<% include includes/header %>
+<div class="container">
+    <% data.forEach(function(info){ %>
+        <div class="col-xs-12 pull-right">
+            <h3><%= info.Företagsnamn %></h3>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#info-<%= info.Organisationsnummer %>" aria-expanded="false" aria-controls="info-collapse">Expandera</button>
+                <div class="collapse" id="info-<%= info.Organisationsnummer %>">
+                    <p><%= info.Organisationsnummer %></p>
+                    <p><%= info.Företagsnamn %></p>
+                    <p><%= info.Besöksadress %></p>
+                    <p><%= info.Postnummer %></p>
+                    <p><%= info.Postort %></p>
+                    <p><%= info.Kontaktnamn %></p>
+                    <p><%= info.Kontakt_Telefon %></p>
+                    <p><%= info.Kontakt_Epost %></p>
+                    <p><%= info.Kontakt_Hemsida %></p>
+                    <p><%= info.Antal_Anställda %></p>
+                    <p><%= info.Juridisk_form %></p>
+                    <p><%= info.Koncermoderbolagsnamn %></p>
+                    <p><%= info.Nettoomsättning %></p>
+                    <p><%= info.VD %></p>
+                </div>
+        </div>
+    <% }) %>
+</div>
+
+
+<% include includes/footer %>
