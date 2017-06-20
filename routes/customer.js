@@ -58,6 +58,11 @@ router.post("/secret-files", middleware.isLoggedIn, type, function(req,res, next
         var first_sheet_name = workbook.SheetNames[0]; //första arketnamnet
         var worksheet = workbook.Sheets[first_sheet_name]; //välj arket med arknamnet
         var obj = xlsx.utils.sheet_to_json(worksheet);  //skriver ut det som en json-sträng.
+        fs.unlink("/uploads" + req.file.path, function(err){ //Tar bort loggen som sparas
+            if(err){
+                console.log(err);
+            }
+        });
         res.render("test.ejs", {data : obj})
     
 });
