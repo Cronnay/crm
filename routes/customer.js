@@ -1,8 +1,11 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+
 var User = require("../models/user");
 var Customer = require("../models/customer");
+var List = require("../models/list");
+
 var middleware = require("../middleware");
 var util = require("util");
 var fs = require("fs"); 
@@ -92,13 +95,12 @@ router.post("/secret-files", middleware.isLoggedIn, type, function(req,res, next
                         else{
                             user.customer.push(newcustomer);
                             user.save();
-                            console.log(newcustomer);
                         }
                     })
                 }
             });
         });
-        res.render("test.ejs", {data : obj})
+        res.render("test", {data : obj})
     
 });
 

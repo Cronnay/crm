@@ -10,6 +10,12 @@ var userSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "Customer"
       }
+  ],
+  list: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "List"
+    }
   ]
 });
 
