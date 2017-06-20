@@ -1,15 +1,12 @@
-html, body{
+html, body {
   margin: 0 auto;
   height: 100%;
   width: 100%;
 }
 
-#nav{
+#nav {
   width: 10%;
   height: 100%;
   float: left;
   margin: 0 auto;
-}
-body{
-  //height: 900px
 }

@@ -7,7 +7,12 @@ var middleware = require("../middleware");
 
 router.get("/secret", middleware.isLoggedIn, function(req,res){
     User.findById(req.user._id).populate("customer").exec(function(err, user){
-        res.render("secret", {data: user});
+        if(user){
+            res.render("secret", {data: user});
+        }
+        else{
+            res.render("secret");
+        }
     });
     
 });
@@ -30,6 +35,13 @@ router.post("/secret", middleware.isLoggedIn, function(req,res){
                 }
             })
         }
+    });
+});
+router.put("/secret", middleware.isLoggedIn, function(req,res){
+    Customer.findByIdAndUpdate(req.body.customerid, {status: req.body.status}, function(err, result){
+        if(err) return (err);
+
+        res.redirect("/secret");
     });
 });
 
