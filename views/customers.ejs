@@ -1,0 +1,44 @@
+<% include includes/header  %>
+<div class="container">
+    <div class="row " id="kunder"> 
+        <div class="col-xs-12">
+            <form action="/secret-files" method="post" enctype="multipart/form-data" class="form-group">
+                <input type="file" name="excel" class="form-control">
+                <input type="submit" class="btn btn-primary form-control">
+            </form>
+            <div class="panel panel-default" id="kontakt-tabell">
+                <div class="panel-heading">
+                    Alla dina kunder
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Orgid</th>
+                            <th>Företagsnamn</th>
+                            <th>Ort</th>
+                            <th>Kontaktperson</th>
+                            <th>Telefonnummer</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% data.customer.forEach(function(kund){ %>
+                        <tr> 
+                            <td><a href="/customer/<%=kund._id%>"><%= kund.orgid %></a></td>
+                            <td><%= kund.foretagsnamn %></td>
+                            <td><%= kund.postort %></td>
+                            <td><%= kund.kontaktnamn %></td>
+                            <td><%= kund.kontakttelefon %></td>
+                            <td><%= kund.status %></td>
+                        </tr> 
+                    <% }) %>
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<% include includes/footer %>

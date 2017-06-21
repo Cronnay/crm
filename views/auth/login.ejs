@@ -1,11 +1,14 @@
 <% include ../includes/header %>
-<h1>Login</h1>
-
-<form action="/login" method="post">
-  Username<input type="text" name="username"><br>
-  Password<input type="password" name="password"><br>
-  <input type="submit">
-</form>
+<div class="container">
+  <h1 style="text-align: center">Login</h1>
+  <form action="/login" method="post">
+    <div class="form-group" style="width: 600px; margin: 0 auto;">
+      Username <input type="text" name="username" class="form-control"><br>
+      Password<input type="password" name="password" class="form-control"><br>
+      <input type="submit" class="btn btn-primary">
+    </div>
+  </form>
+</div>
 
 
 <% include ../includes/footer %>

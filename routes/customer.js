@@ -11,23 +11,24 @@ var middleware = require("../middleware");
 var util = require("util");
 var fs = require("fs"); 
 var xlsx = require('xlsx');
+var moment = require("moment");
 
 var fileUpload = multer({dest:'./tmp/'});
 
 
-router.get("/secret", middleware.isLoggedIn, function(req,res){
+router.get("/customer", middleware.isLoggedIn, function(req,res){
     User.findById(req.user._id).populate("customer").exec(function(err, user){
         if(user){
-            res.render("secret", {data: user});
+            res.render("customers", {data: user, moment: moment});
         }
         else{
-            res.render("secret");
+            res.render("customers");
         }
     });
     
 });
 
-router.post("/secret", middleware.isLoggedIn, function(req,res){
+router.post("/customer", middleware.isLoggedIn, function(req,res){
     User.findById(req.user._id, function(err, user){
         if(err){
             console.log(err);
@@ -41,17 +42,17 @@ router.post("/secret", middleware.isLoggedIn, function(req,res){
                     user.customer.push(newcustomer);
                     user.save();
                     console.log(newcustomer);
-                    res.redirect("/secret");
+                    res.redirect("/customer");
                 }
             })
         }
     });
 });
-router.put("/secret", middleware.isLoggedIn, function(req,res){
+router.put("/customer", middleware.isLoggedIn, function(req,res){
     Customer.findByIdAndUpdate(req.body.customerid, {status: req.body.status}, function(err, result){
         if(err) return (err);
 
-        res.redirect("/secret");
+        res.redirect("/customer");
     });
 });
 
@@ -100,8 +101,15 @@ router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), 
                 console.log(err);
             }
         });
-        res.render("test", {data : obj})
-    
+        res.redirect("/customer");
+});
+
+router.get("/customer/:id", middleware.isLoggedIn, (req,res) => {
+    Customer.findById(req.params.id, (err, cust) => {
+        if(err) res.redirect("/customer");
+
+        res.render("customerdetail", {custdetail: cust, moment: moment});
+    });
 });
 
 

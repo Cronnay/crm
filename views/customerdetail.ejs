@@ -1,0 +1,46 @@
+<% include includes/header  %>
+<div class="container">
+    <div class="row " id="kunder"> 
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-sm-8 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="media">
+                                <%= custdetail.foretagsnamn %>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <p>Besöksadress</p>
+                                    <p><%= custdetail.adress %>
+                                </div>
+                                <div class="col-sm-5">
+                                    <p>Orgnr</p>
+                                    <p><%= custdetail.orgid %>
+                                </div>
+                            </div>
+                            <div class="row"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-6">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p class="panel-statistics-title">Skapad</p>
+                                    <div class="panel-divider"></div>
+                                    <h3 class="panel-statistics-value"><%= moment(custdetail.skapad).format('DD-MM-YYYY') %></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<% include includes/footer %>
+<!-- custdetail -->

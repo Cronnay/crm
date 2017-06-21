@@ -1,11 +1,11 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+
 var User = require("../models/user");
 var Customer = require("../models/customer");
 var middleware = require("../middleware");
 
-var newCustomer = {namn:"Alfred AB", orgid:5566778899, adress:"Timjanvägen 10", postnr: "96164", postort: "Boden", telefonnummer: "0722003579", fornamn:"Sebbe", efternamn:"Berglönn", status:"Inte uppringd"};
 
 router.get("/", function(req,res){
   res.render("landing");
@@ -32,9 +32,10 @@ router.get("/login", function(req,res){
 });
 
 router.post("/login", passport.authenticate("local",{
-  successRedirect: "/secret",
+  successRedirect: "/customer",
   failureRedirect: "/login"
 }), function(req,res){});
+
 router.get("/logout", function(req,res){
   req.logout();
   res.redirect("/");
