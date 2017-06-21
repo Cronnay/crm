@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+var multer = require("multer");
 
 var User = require("../models/user");
 var Customer = require("../models/customer");
@@ -9,10 +10,9 @@ var List = require("../models/list");
 var middleware = require("../middleware");
 var util = require("util");
 var fs = require("fs"); 
-var multer = require("multer");
-var upload = multer({ dest: 'uploads/'});
 var xlsx = require('xlsx');
 
+var fileUpload = multer({dest:'./tmp/'});
 
 
 router.get("/secret", middleware.isLoggedIn, function(req,res){
@@ -54,18 +54,13 @@ router.put("/secret", middleware.isLoggedIn, function(req,res){
         res.redirect("/secret");
     });
 });
-type = upload.single('excel');
 
-router.post("/secret-files", middleware.isLoggedIn, type, function(req,res, next){
+
+router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), function(req,res, next){
         var workbook = xlsx.readFile(req.file.path); // läser filer
         var first_sheet_name = workbook.SheetNames[0]; //första arketnamnet
         var worksheet = workbook.Sheets[first_sheet_name]; //välj arket med arknamnet
         var obj = xlsx.utils.sheet_to_json(worksheet);  //skriver ut det som en json-sträng.
-        /*fs.unlink("./uploads" + req.file.path, function(err){ //Tar bort loggen som sparas
-            if(err){
-                console.log(err);
-            }
-        });*/
         obj.forEach(function(customer){
             var newCustomer = {
                 "orgid" : customer.Organisationsnummer, 
@@ -99,6 +94,11 @@ router.post("/secret-files", middleware.isLoggedIn, type, function(req,res, next
                     })
                 }
             });
+        });
+        fs.unlink(req.file.path, (err) => {
+            if(err){
+                console.log(err);
+            }
         });
         res.render("test", {data : obj})
     

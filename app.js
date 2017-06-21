@@ -13,7 +13,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 mongoose.connect("mongodb://localhost/crm");
 
-app.use(multer({dest: '../uploads/'}).single('excel'));
 
 var User = require("./models/user");
 var Customer = require("./models/customer");
