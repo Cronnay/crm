@@ -16,7 +16,12 @@ var userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "List"
     }
-  ]
+  ],
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company"
+  },
+  authority: {type: String, default: "Superuser"}
 });
 
 var options = {

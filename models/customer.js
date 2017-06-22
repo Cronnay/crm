@@ -15,6 +15,14 @@ var customerschema = new mongoose.Schema({
   koncernmoderbolagsnamn: {type: String, default : "Ingen"},
   nettoomsattning: String,
   vd: String,
-  status: {type: String, default : 'Ring upp'}
+  status: {type: String, default : 'Ring upp'},
+  skapad: {type: Date, default: Date.now},
+  uppdaterad: {type: Date, default: Date.now},
+  anteckningar: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Note"
+    }
+  ]
 });
 module.exports = mongoose.model("Customer", customerschema);
