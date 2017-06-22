@@ -6,6 +6,7 @@ var multer = require("multer");
 var User = require("../models/user");
 var Customer = require("../models/customer");
 var List = require("../models/list");
+var Note = require("../models/notes");
 
 var middleware = require("../middleware");
 var util = require("util");
@@ -90,7 +91,7 @@ router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), 
                         }
                         else{
                             user.customer.push(newcustomer);
-                            user.save(); //testing git branch
+                            user.save(); 
                         }
                     })
                 }
@@ -105,10 +106,32 @@ router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), 
 });
 
 router.get("/customer/:id", middleware.isLoggedIn, (req,res) => {
-    Customer.findById(req.params.id, (err, cust) => {
+    Customer.findById(req.params.id).populate("anteckningar").exec((err, cust) => {
         if(err) res.redirect("/customer");
 
         res.render("customerdetail", {custdetail: cust, moment: moment});
+    });
+});
+
+router.post("/customer/:id", middleware.isLoggedIn, (req,res) => {
+    Customer.findById(req.params.id, (err, cust) => {
+        if(err){
+            res.redirect("/customer/" + req.params.id);
+        }
+        else{
+            Note.create(req.body.note, (noteError, noteCreated) => {
+                if(noteError){
+                    console.log(noteError);
+                    //res.redirect("/customer/" + req.params.id);
+                    res.send("error");
+                }
+                else{
+                    cust.anteckningar.push(noteCreated);
+                    cust.save();
+                    res.redirect("/customer/" + req.params.id);
+                }
+            });
+        }
     });
 });
 

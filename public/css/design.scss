@@ -15,3 +15,12 @@ html, body{
   width: 1000px;
   margin: 0 auto;
 }
+.underline-title{
+  border-bottom: 1px solid lighten(gray, 40); 
+}
+.note-author{
+  font-weight: bold;
+}
+.note-text{
+  font-style: italic;
+}
