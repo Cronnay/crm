@@ -39,6 +39,6 @@ var customer = require("./routes/customer");
 app.use(customer);
 app.use(auth);
 
-app.listen("3000", function(){
+app.listen("80", function(){
   console.log("Server is open!");
 });
