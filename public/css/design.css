@@ -27,3 +27,13 @@ html, body {
 .note-text {
   font-style: italic;
 }
+
+#anteckningar {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#tab-content {
+  padding-top: 10px;
+}

@@ -23,6 +23,12 @@ var customerschema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Note"
     }
+  ],
+  affar: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Affar"
+    }
   ]
 });
 module.exports = mongoose.model("Customer", customerschema);
