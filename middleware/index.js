@@ -15,4 +15,21 @@ middlewareObj.isLoggedIn = function(req, res, next){ //middleware
     }
 }
 
+// middlewareObj.checkOwnership = function(req, res, next){
+//   var count = 0;
+//   if(req.isAuthenticated()){
+//     User.findById(req.user._id, (err, usr) => {
+//       usr.customer.forEach((customerId) => {
+//         if(customerId.equals(req.params.id)){
+//           next();
+//         }
+//         count++;
+//         if(count === usr.customer.length){
+//           res.redirect("back");
+//         }
+//       });
+//     });
+//   }
+// }
+
 module.exports = middlewareObj;

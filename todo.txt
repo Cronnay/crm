@@ -1,0 +1,8 @@
+TODO:
+
+Make it able to create affär
+Handle the file and be able to read it again
+Change status on the offert
+
+Fix middleware for customerownership so only the owner and superuser can see it.
+

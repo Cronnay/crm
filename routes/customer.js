@@ -7,6 +7,7 @@ var User = require("../models/user");
 var Customer = require("../models/customer");
 var List = require("../models/list");
 var Note = require("../models/notes");
+var Affar = require("../models/affar");
 
 var middleware = require("../middleware");
 var util = require("util");
@@ -106,7 +107,7 @@ router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), 
 });
 
 router.get("/customer/:id", middleware.isLoggedIn, (req,res) => {
-    Customer.findById(req.params.id).populate("anteckningar").exec((err, cust) => {
+    Customer.findById(req.params.id).populate("anteckningar").populate('affar').exec((err, cust) => {
         if(err) res.redirect("/customer");
 
         res.render("customerdetail", {custdetail: cust, moment: moment});
@@ -134,7 +135,29 @@ router.post("/customer/:id", middleware.isLoggedIn, (req,res) => {
         }
     });
 });
-router.post("")
+router.post("/affar", middleware.isLoggedIn, (req,res) => {
+    var customerid = req.body.customerid;
+
+
+    Customer.findById(customerid, (err, cust) => {
+        if(err){
+            res.redirect(`/customer/${customerid}`);
+        }
+        else{
+            Affar.create(req.body.affar, (affarError, affarCreated) => {
+                if(affarError){
+                    console.log(affarError);
+                    res.send("error");
+                }
+                else{
+                    cust.affar.push(affarCreated);
+                    cust.save();
+                    res.redirect(`/customer/${customerid}`);
+                }
+            });
+        }
+    });
+});
 
 
 module.exports = router; //Emitter

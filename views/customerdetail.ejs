@@ -81,6 +81,31 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#skapaaffar">Skapa affär</button>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ägare</th>
+                                                        <th>Status</th>
+                                                        <th>Summa</th>
+                                                        <th>Orderdatum</th>
+                                                        <th>Bifogad fil</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>                    
+                                                    <% custdetail.affar.forEach(function(affar){ %>
+                                                        <tr>
+                                                            <td><%= affar.agare %></td>
+                                                            <% var klass; if(affar.status === 'Inväntar Svar'){ klass = "waiting"  %>
+                                                            <% } else if(affar.status === 'Accepterad'){ klass = "accepted" %>
+                                                            <% } else if(affar.status === 'Nekad'){ klass = "denied"} %>
+                                                            <td class="<%= klass %>"><%= affar.status %></td>
+                                                            <td><%= affar.summa %></td>
+                                                            <td><%= moment(affar.order).format("DD-MM-YYYY HH:MM") %></td>
+                                                            <td><%= affar.bifogad %></td>
+                                                        </tr>
+                                                    <% }) %>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -93,42 +118,44 @@
     </div>
 </div>
 
-<div class="modal fade" id="skapaaffar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="skapaaffar" tabindex="-1" role="dialog" aria-labelledby="affarModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Ny affär</h4>
+                <h4 class="modal-title" id="affarModal">Ny affär</h4>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">Summa</label>
-                        <input type="text" class="form-control" id="summa" />
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">Status på offert</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="Inväntar Svar">Inväntar Svar</option>
-                            <option value="Accepterad">Accepterad</option>
-                            <option value="Nekad">Nekad</option>
-                        </select>
-                    </div>          
-                    <div class="form-group">
-                        <label for="message-text" class="control-label">Anteckning</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="control-label">Bifoga fil</label>
-                        <input type="file" class="form-control" name="file" accept=".jpg,.png,.doc,.xlsx,.dot,.dox,.xls" />
-                    </div>      
-                    <input type="hidden" value ="<%= custdetail._id %>" />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Skapa affär</button>
-            </div>
+            <form action="/affar" method="post">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Summa</label>
+                            <input type="text" class="form-control" id="summa" name="affar[summa]" />
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Status på offert</label>
+                            <select name="affar[status]" id="status" class="form-control">
+                                <option value="Inväntar Svar">Inväntar Svar</option>
+                                <option value="Accepterad">Accepterad</option>
+                                <option value="Nekad">Nekad</option>
+                            </select>
+                        </div>          
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Anteckning</label>
+                            <textarea class="form-control" id="message-text" name="affar[anteckning]"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Bifoga fil</label>
+                            <input type="file" class="form-control" name="affar[bifogad]" accept=".jpg,.png,.doc,.xlsx,.dot,.dox,.xls,.pdf" />
+                        </div>      
+                        <input type="hidden" value ="<%= currentUser.name %>" name="affar[agare]" />
+                        <input type="hidden" value ="<%= custdetail._id %>" name="customerid" />
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Skapa affär</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -37,3 +37,15 @@ html, body {
 #tab-content {
   padding-top: 10px;
 }
+
+.waiting {
+  background-color: #f0ad4e;
+}
+
+.accepted {
+  background-color: #5cb85c;
+}
+
+.denied {
+  background-color: #d9534f;
+}
