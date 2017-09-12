@@ -6,11 +6,13 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var methodOverride = require("method-override");
 var multer = require("multer");
+var cors = require("cors");
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
+app.use(cors());
 mongoose.connect("mongodb://localhost/crm");
 
 

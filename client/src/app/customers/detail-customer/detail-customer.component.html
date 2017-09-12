@@ -1,0 +1,148 @@
+<div class="container">
+    <div class="row" id="kunder"> 
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-sm-8 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="media">
+                                <h3 class="underline-title">{{ customer['foretagsnamn'] }}</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <h4>Besöksadress</h4>
+                                    <p>{{ customer['adress'] }}</p>
+                                </div>
+                                <div class="col-sm-5">
+                                    <h4>Orgnr</h4>
+                                    <p>{{ customer['orgid'] }}</p>
+                                </div>
+                            </div>
+                            <div class="row"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-6">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h4 class="underline-title">Skapad</h4>
+                                    <div></div>
+                                    <h3><%= moment(custdetail.skapad).format('DD-MM-YYYY') %></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs" role="tablist" id="customertabs">
+                                <li role="presentation" class="active"><a href="#anteckningar" aria-controls="anteckningar" role="tab" data-toggle="tab">Anteckningar</a></li>
+                                <li role="presentation"><a href="#affar" aria-controls="affar" role="tab" data-toggle="tab">Affär</a></li>
+                            </ul>
+                            <div class="tab-content" id="tab-content">
+                                <div role="tabpanel" id="anteckningar" class="tab-pane active">
+                                    <form action="/customer/<%= custdetail._id %>" method="post" style="padding-top:10px">
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="<%= currentUser.name %>" name="note[skapare]">
+                                                    <textarea name="note[text]" placeholder="Skriv en anteckning här" class="form-control" style="resize: none"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary form-control" style="margin-top: 10%;">Skicka in</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- Anteckningar här -->
+                                        <div class="well well-sm">
+                                            <div class="row">
+                                                <div class="col-xs-8">
+                                                    <p class="note-author"><%= notes.skapare %> </p>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <p class="pull-right"><%= moment(notes.tid).format("DD-MM-YYYY HH:MM")%></p>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <p class="note-text"><%= notes.text %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div role="tabpanel" id="affar" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#skapaaffar">Skapa affär</button>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ägare</th>
+                                                        <th>Status</th>
+                                                        <th>Summa</th>
+                                                        <th>Orderdatum</th>
+                                                        <th>Bifogad fil</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>                    
+                                                        <tr>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="skapaaffar" tabindex="-1" role="dialog" aria-labelledby="affarModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="affarModal">Ny affär</h4>
+            </div>
+            <form action="/affar" method="post">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Summa</label>
+                            <input type="text" class="form-control" id="summa" name="affar[summa]" />
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Status på offert</label>
+                            <select name="affar[status]" id="status" class="form-control">
+                                <option value="Inväntar Svar">Inväntar Svar</option>
+                                <option value="Accepterad">Accepterad</option>
+                                <option value="Nekad">Nekad</option>
+                            </select>
+                        </div>          
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Anteckning</label>
+                            <textarea class="form-control" id="message-text" name="affar[anteckning]"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Bifoga fil</label>
+                            <input type="file" class="form-control" name="affar[bifogad]" accept=".jpg,.png,.doc,.xlsx,.dot,.dox,.xls,.pdf" />
+                        </div>      
+                        <input type="hidden" value ="<%= currentUser.name %>" name="affar[agare]" />
+                        <input type="hidden" value ="<%= custdetail._id %>" name="customerid" />
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Skapa affär</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

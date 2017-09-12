@@ -6,3 +6,6 @@ Change status on the offert
 
 Fix middleware for customerownership so only the owner and superuser can see it.
 
+
+Clientside:
+Detailcustomer gives error but still prints out

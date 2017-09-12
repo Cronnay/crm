@@ -18,10 +18,11 @@ var moment = require("moment");
 var fileUpload = multer({dest:'./tmp/'});
 
 
-router.get("/customer", middleware.isLoggedIn, function(req,res){
-    User.findById(req.user._id).populate("customer").exec(function(err, user){
+// router.get("/customer", middleware.isLoggedIn, function(req,res){
+router.get("/customer", function(req,res){
+    User.findById("595cffa78cc37875bc58efc2").populate("customer").exec(function(err, user){
         if(user){
-            res.render("customers", {data: user, moment: moment});
+            res.json({data: user, moment: moment});
         }
         else{
             res.render("customers");
@@ -106,11 +107,11 @@ router.post("/secret-files", middleware.isLoggedIn, fileUpload.single('excel'), 
         res.redirect("/customer");
 });
 
-router.get("/customer/:id", middleware.isLoggedIn, (req,res) => {
+router.get("/customer/:id", (req,res) => {
     Customer.findById(req.params.id).populate("anteckningar").populate('affar').exec((err, cust) => {
         if(err) res.redirect("/customer");
 
-        res.render("customerdetail", {custdetail: cust, moment: moment});
+        res.json({custdetail: cust});
     });
 });
 

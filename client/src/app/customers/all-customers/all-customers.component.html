@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row " id="kunder"> 
+        <div class="col-xs-12">
+            <form action="/secret-files" method="post" enctype="multipart/form-data" class="form-group">
+                <input type="file" name="excel" class="form-control">
+                <input type="submit" class="btn btn-primary form-control">
+            </form>
+            <div class="panel panel-default" id="kontakt-tabell">
+                <div class="panel-heading">
+                    Alla dina kunder
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Orgid</th>
+                            <th>Företagsnamn</th>
+                            <th>Ort</th>
+                            <th>Kontaktperson</th>
+                            <th>Telefonnummer</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of (customers | async)?.data.customer"> 
+                            <td><a routerLink="/kunder/{{customer._id}}" >{{ customer.orgid }}</a></td>
+                            <td>{{ customer.foretagsnamn }}</td>
+                            <td>{{ customer.postort }}</td>
+                            <td>{{ customer.kontaktnamn }}</td>
+                            <td>{{ customer.kontakttelefon }}</td>
+                            <td>{{ customer.status }}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
